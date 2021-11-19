@@ -2,7 +2,7 @@ import pygame
 
 class Spaceship(object):
     def __init__(self):
-        self.image = pygame.image.load('P:\Documents\ProjetJeu\Spaceship.png').convert_alpha()
+        self.image = pygame.image.load('.\Images\Spaceship.png').convert_alpha()
         self.x = 250
         self.y = 250
     def handle_keys(self):
@@ -26,7 +26,7 @@ pygame.display.set_caption("Projet shooter")
 
 run = True
 
-fond = pygame.image.load("P:\Documents\ProjetJeu\Background.png").convert()
+fond = pygame.image.load(".\Images\Background.jpg").convert()
 fenetre.blit(fond, (0,0))
 
 while run:
