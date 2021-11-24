@@ -1,66 +1,91 @@
- 
-import pygame 
+import math
+import random
+
+import pygame
+from pygame import mixer
+
+# Initialisation du jeu
 pygame.init()
- 
-win = pygame.display.set_mode((500, 500))
-pygame.display.set_caption("Projet shooter")
 
-run = True
+# Creation de l'ecran de jeu
+screen = pygame.display.set_mode((800, 600))
 
-fond = pygame.image.load(".\Images\Background.jpg").convert()
+# Titre de l'ecran de jeu
+pygame.display.set_caption("Space Shooter")
 
-bullets = []
-bulletpicture = pygame.image.load(".\SpaceShooter\Images\bulletsspaceship.png").convert_alpha()
+# Affichage du fond d'ecran du jeu
+background = pygame.image.load('.\Images\Background.jpg')
 
-class Spaceship(object):
-    def __init__(self):
-        self.image = pygame.image.load('.\Images\Spaceship.png').convert_alpha()
-        self.x = 200
-        self.y = 200
-    def key(self):
-        keys = pygame.key.get_pressed()
-        vel = 10
-        if keys[pygame.K_LEFT] and self.x>0:
-            self.x -= vel
-        if keys[pygame.K_RIGHT] and self.x<500-80:
-            self.x += vel 
-        if keys[pygame.K_UP] and self.y>0:
-            self.y -= vel  
-        if keys[pygame.K_DOWN] and self.y<500-80:
-            self.y += vel
-    def draw(self, surface):
-        surface.blit(self.image, (self.x,self.y))
+# Son d'ambiance du jeu
+mixer.music.load(".\sons\BackgroundMusic.mp3")
+mixer.music.play(-1)
 
-spaceship = Spaceship()
+# Initialisation du joueur
+playerImg = pygame.image.load('.\Images\Spaceship.png')
+playerX = 200
+playerY = 200
+playerX_change = 0
 
-while run:
-    
-    pygame.time.delay(10)
-        
-    for event in pygame.event.get(): 
-        if event.type == pygame.QUIT:
-            run = False
-        elif event.type == MOUSEBUTTONDOWN:
-            shot.play()
-            bullets.append([event.pos[0]-32, 500])
+#Initialisation des ennemis
+enemyImg = []
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 6
 
-    clock.tick(60)
+for i in range(num_of_enemies):
+    enemyImg.append(pygame.image.load('.\Images\Spaceship.png'))
+    enemyX.append(random.randint(0, 736))
+    enemyY.append(random.randint(50, 150))
+    enemyX_change.append(4)
+    enemyY_change.append(40)
 
-    mx, my = pygame.mouse.get_pos()
+# Prete -> La balle est dans le chargeur donc invisible a l'ecran
+# Feu -> La balle est envoye et donc visible a l'ecran
 
-    for b in range(len(bullets)):
-        bullets[b][0] -= 10
+bulletImg = pygame.image.load('.\Images\Bullets.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 10
+bullet_state = "prete"
 
-    # Iterate over a slice copy if you want to mutate a list.
-    for bullet in bullets[:]:
-        if bullet[0] < 0:
-            bullets.remove(bullet)
+# Affichage du score , initialiser a 0 et en police freesansbold de taille 32
+score_value = 0
+font = pygame.font.Font('freesansbold.ttf', 32)
+# Position du score
+textX = 10
+testY = 10
 
-    spaceship.key()
-    win.blit(fond, (0,0))
-    for bullet in bullets:
-        screen.blit(bulletpicture, pygame.Rect(bullet[0], bullet[1], 0, 0))
-    spaceship.draw(win)
-    pygame.display.update() 
-   
-pygame.quit()
+# Texte du Game Over
+over_font = pygame.font.Font('freesansbold.ttf', 64)
+
+# Fonction de l'affichage du score
+def show_score(x, y):
+    # Rendu de l'affichage, on cherche si il y a un score et on l'affiche en blanc
+    score = font.render("Score : " + str(score_value), True, (255,255,255))
+    # Permet d'afficher le score sur l'ecran de jeu
+    screen.blit(score, (x, y))
+
+# Fonction pour afficher le joueur sur l'ecran de jeu
+def player(x, y):
+    screen.blit(playerImg, (x, y))
+
+# Fonction pour afficher les ennemis a l'ecran (position et nombre)
+def enemy(x, y, i):
+    screen.blit(enemyImg[i], (x, y))
+
+# Fonction des balles du joueur lorsqu'elles sont tire
+def fire_bullet(x, y):
+    global bullet_state
+    bubullet_state = "fire"
+    screen.blit(bulletImg, (x + 16, y + 10))
+
+# Fonction de collision entre les balles et les enemies
+def isCollision(enemyX, enemyY, bulletX, bulletY):
+    distance = math.sqrt(math.pow(enemyX-bulletX, 2) + (math.pow(enemyY-bulletY, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
