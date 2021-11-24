@@ -9,6 +9,9 @@ run = True
 
 fond = pygame.image.load(".\Images\Background.jpg").convert()
 
+bullets = []
+bulletpicture = pygame.image.load(".\SpaceShooter\Images\bulletsspaceship.png").convert_alpha()
+
 class Spaceship(object):
     def __init__(self):
         self.image = pygame.image.load('.\Images\Spaceship.png').convert_alpha()
@@ -37,9 +40,26 @@ while run:
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT:
             run = False
+        elif event.type == MOUSEBUTTONDOWN:
+            shot.play()
+            bullets.append([event.pos[0]-32, 500])
+
+    clock.tick(60)
+
+    mx, my = pygame.mouse.get_pos()
+
+    for b in range(len(bullets)):
+        bullets[b][0] -= 10
+
+    # Iterate over a slice copy if you want to mutate a list.
+    for bullet in bullets[:]:
+        if bullet[0] < 0:
+            bullets.remove(bullet)
 
     spaceship.key()
     win.blit(fond, (0,0))
+    for bullet in bullets:
+        screen.blit(bulletpicture, pygame.Rect(bullet[0], bullet[1], 0, 0))
     spaceship.draw(win)
     pygame.display.update() 
    
