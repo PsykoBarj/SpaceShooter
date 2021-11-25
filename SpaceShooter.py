@@ -25,6 +25,7 @@ playerImg = pygame.image.load('.\Images\Spaceship.png')
 playerX = 200
 playerY = 200
 playerX_change = 0
+playerY_change = 0
 
 #Initialisation des ennemis
 enemyImg = []
@@ -89,3 +90,47 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return True
     else:
         return False
+
+# Boucle principal du jeu
+running = True
+while running:
+    screen.fill((0,0,0))
+    # Fond du jeu
+    screen.blit(background, (0, 0))
+
+    # Indique que si l'on clique sur la croix le jeu s'eteint en coupqnt la boucle
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Controle du vaisseau joueur
+    if event.type == pygame.KEYDOWN:
+        # Appui sur la fleche de gauche
+        if event.key == pygame.K_LEFT:
+            playerX_change = -5
+        # Appui sur la fleche de droite
+        if event.key == pygame.K_RIGHT:
+            playerX_change = 5
+        # Appui sur la fleche du haut
+        if event.key == pygame.K_UP:
+            playerY_change = -5
+        # Appui sur la fleche du bas
+        if event.key == pygame.K_DOWN:
+            playerY_change = 5
+        # Appui sur la touche espace pour tirer
+        if event.key == pygame.K_SPACE:
+            if bullet_state is "ready":
+                bulletX = playerX
+                fire_bullet(bulletX, bulletY)
+
+    playerX += playerX_change
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736:
+        playerX = 736
+
+
+    player(playerX, playerY)
+    show_score(textX, testY)
+    pygame.display.update()
+    
