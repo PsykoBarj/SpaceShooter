@@ -36,7 +36,7 @@ enemyY_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('.\Images\Spaceship.png'))
+    enemyImg.append(pygame.image.load('.\Images\enemy.png'))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -50,7 +50,7 @@ bulletX = 0
 bulletY = 0
 bulletX_change = 0
 bulletY_change = 0
-bullet_state = "prete"
+bullet_state = "ready"
 
 # Affichage du score , initialiser a 0 et en police freesansbold de taille 32
 score_value = 0
@@ -80,7 +80,7 @@ def enemy(x, y, i):
 # Fonction des balles du joueur lorsqu'elles sont tire
 def fire_bullet(x, y):
     global bullet_state
-    bubullet_state = "fire"
+    bullet_state = "fire"
     screen.blit(bulletImg, (x + 16, y + 10))
 
 # Fonction de collision entre les balles et les enemies
@@ -102,7 +102,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    speed = 3
+    speed = 1
     # Controle du vaisseau joueur
     if event.type == pygame.KEYDOWN:
         # Appui sur la fleche de gauche
@@ -136,6 +136,14 @@ while running:
     elif playerY >= 530:
         playerY = 530
 
+    # Bullet Movement
+    if bulletY <= 0:
+        bulletY = 480
+        bullet_state = "ready"
+
+    if bullet_state is "fire":
+        fire_bullet(bulletX, bulletY)
+        bulletY -= bulletY_change
 
     player(playerX, playerY)
     show_score(textX, testY)

@@ -35,7 +35,7 @@ enemyY_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('.\Images\Spaceship.png'))
+    enemyImg.append(pygame.image.load('.\Images\enemy.png'))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -138,7 +138,7 @@ while running:
     for i in range(num_of_enemies):
 
         # Game Over
-        if enemyY[i] > 440:
+        if enemyY[i] > 450:
             for j in range(num_of_enemies):
                 enemyY[j] = 2000
             game_over_text()
