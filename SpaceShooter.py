@@ -97,32 +97,37 @@ while running:
     screen.fill((0,0,0))
     # Fond du jeu
     screen.blit(background, (0, 0))
-
+    speed = 1
     # Indique que si l'on clique sur la croix le jeu s'eteint en coupant la boucle
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    speed = 1
-    # Controle du vaisseau joueur
-    if event.type == pygame.KEYDOWN:
+        # Controle du vaisseau joueur
+        if event.type == pygame.KEYDOWN:
         # Appui sur la fleche de gauche
-        if event.key == pygame.K_LEFT:
-            playerX_change = -speed
+            if event.key == pygame.K_LEFT:
+                playerX_change = -speed
         # Appui sur la fleche de droite
-        if event.key == pygame.K_RIGHT:
-            playerX_change = speed
+            if event.key == pygame.K_RIGHT:
+                playerX_change = speed
         # Appui sur la fleche du haut
-        if event.key == pygame.K_UP:
-            playerY_change = -speed
+            if event.key == pygame.K_UP:
+                playerY_change = -speed
         # Appui sur la fleche du bas
-        if event.key == pygame.K_DOWN:
-            playerY_change = speed
+            if event.key == pygame.K_DOWN:
+                playerY_change = speed
+            if event.key == pygame.K_SPACE:
+                if bullet_state is "ready":
+                    bulletX = playerX
+                    fire_bullet(bulletX, bulletY)
+        if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    playerX_change = 0
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    playerY_change = 0
         # Appui sur la touche espace pour tirer
-        if event.key == pygame.K_SPACE:
-            if bullet_state is "ready":
-                bulletX = playerX
-                fire_bullet(bulletX, bulletY)
-
+           
+            
     # Ces deux blocs empechent le vaisseau de sortir du cadre
     playerX += playerX_change
     if playerX <= 0:
