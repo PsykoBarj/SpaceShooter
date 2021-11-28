@@ -109,7 +109,7 @@ while running:
     screen.fill((0,0,0))
     # Fond du jeu
     screen.blit(background, (0, 0))
-    speed = 1
+    speed = 2
     # Indique que si l'on clique sur la croix le jeu s'eteint en coupant la boucle
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
