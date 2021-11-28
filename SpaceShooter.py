@@ -33,23 +33,25 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
+num_of_enemies = 3
+
+
 
 for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load('.\Images\enemy.png'))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
-    enemyY_change.append(40)
+    enemyY_change.append(30)
 
 # Prete -> La balle est dans le chargeur donc invisible a l'ecran
 # Feu -> La balle est envoye et donc visible a l'ecran
 
-bulletImg = pygame.image.load('.\Images\Bullets.png')
+bulletImg = pygame.image.load('.\Images\Bullet.png')
 bulletX = playerX
 bulletY = playerY
 bulletX_change = 0
-bulletY_change = 2
+bulletY_change = 5
 bullet_state = "ready"
 
 # Bruitage des balles
@@ -72,6 +74,11 @@ def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255,255,255))
     # Permet d'afficher le score sur l'ecran de jeu
     screen.blit(score, (x, y))
+
+# Affichage de fin de jeu en cas de perte de la partie
+def game_over_text():
+    over_text = over_font.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(over_text, (200, 250))
 
 # Fonction pour afficher le joueur sur l'ecran de jeu
 def player(x, y):
@@ -145,6 +152,31 @@ while running:
         playerY = 0
     elif playerY >= 530:
         playerY = 530
+
+    for i in range(num_of_enemies):
+        if enemyY[i]>450:
+            for j in range(num_of_enemies):
+                enemyY[j] = 2000
+            game_over_text()
+            break
+        
+        enemyX[i] += enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 1
+            enemyY[i] += enemyY_change[i]
+        elif enemyX[i] >= 736:
+            enemyX_change[i] = -1
+            enemyY[i] += enemyY_change[i]
+
+        collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
+        if collision:
+            bulletY = playerY
+            bullet_state = "ready"
+            score_value += 1
+            enemyX[i] = random.randint(0, 736)
+            enemyY[i] = random.randint(50, 150)
+
+        enemy(enemyX[i], enemyY[i], i)
 
     # Bullet Movement
     if bulletY <= -20:
