@@ -21,7 +21,7 @@ mixer.music.load(".\sons\BackgroundMusic.mp3")
 mixer.music.play(-1)
 
 # Initialisation du joueur
-playerImg = pygame.image.load('.\Images\Spaceship.png')
+playerImg = pygame.image.load('.\Images\SpaceshipV1.png')
 playerX = 200
 playerY = 200
 playerX_change = 0
@@ -46,11 +46,15 @@ for i in range(num_of_enemies):
 # Feu -> La balle est envoye et donc visible a l'ecran
 
 bulletImg = pygame.image.load('.\Images\Bullets.png')
-bulletX = 0
-bulletY = 0
+bulletX = playerX
+bulletY = playerY
 bulletX_change = 0
-bulletY_change = 0
+bulletY_change = 2
 bullet_state = "ready"
+
+# Bruitage des balles
+SHOOT_SOUND = pygame.mixer.Sound('./Sons/shoot.wav')
+SHOOT_SOUND.set_volume(0.5)
 
 # Affichage du score , initialiser a 0 et en police freesansbold de taille 32
 score_value = 0
@@ -81,7 +85,7 @@ def enemy(x, y, i):
 def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
-    screen.blit(bulletImg, (x + 16, y + 10))
+    screen.blit(bulletImg, (x, y))
 
 # Fonction de collision entre les balles et les enemies
 def isCollision(enemyX, enemyY, bulletX, bulletY):
@@ -94,6 +98,7 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
 # Boucle principal du jeu
 running = True
 while running:
+
     screen.fill((0,0,0))
     # Fond du jeu
     screen.blit(background, (0, 0))
@@ -142,13 +147,14 @@ while running:
         playerY = 530
 
     # Bullet Movement
-    if bulletY <= 0:
-        bulletY = 480
+    if bulletY <= -20:
+        bulletY = playerY
         bullet_state = "ready"
 
     if bullet_state is "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+        SHOOT_SOUND.play()
 
     player(playerX, playerY)
     show_score(textX, testY)
