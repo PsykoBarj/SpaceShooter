@@ -21,7 +21,7 @@ mixer.music.load(".\sons\BackgroundMusic.mp3")
 mixer.music.play(-1)
 
 # Initialisation du joueur
-playerImg = pygame.image.load('.\Images\SpaceshipV1.png')
+playerImg = pygame.image.load('.\Images\Spaceship.png')
 playerX = 200
 playerY = 200
 playerX_change = 0
