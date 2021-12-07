@@ -12,7 +12,9 @@ class Game:
         py = 500
         self.player = Player(px, py)
         self.score = show_score(10,10)
-        self.bullets = Bullets(px, py)
+        self.bullets = Bullets(self.player.rect.x, self.player.rect.y)
+        self.bullets.state = "ready"
+        
 
 
     def handling_event(self):
@@ -36,11 +38,17 @@ class Game:
             self.player.velocity[1] = 0
 
         if key[pygame.K_SPACE]:
-            self.bullets.velocity[0] = -1
+            if self.bullets.state == "ready":
+                self.bullets.rect.x = self.player.rect.x
+                self.bullets.rect.y = self.player.rect.y
+                self.bullets.state = "fire"
+                self.bullets.velocity[0] = -1
 
     def update(self):
         self.player.move()
         self.bullets.move()
+        if self.bullets.rect.x == 0:
+            self.bullets.state = "ready"
 
     def display(self):
         self.screen.fill("black")
