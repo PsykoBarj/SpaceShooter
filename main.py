@@ -1,16 +1,19 @@
 import pygame
 from player import Player
 from score import show_score
+from bullets import Bullets
 
 class Game:
     def __init__(self,screen):
         self.screen = screen
         self.running = True
         self.clock = pygame.time.Clock()
-        self.player = Player(500, 500)
+        px = 500
+        py = 500
+        self.player = Player(px, py)
         self.score = show_score(10,10)
+        self.bullets = Bullets(px, py)
 
-    
 
     def handling_event(self):
         for event in pygame.event.get():
@@ -32,12 +35,17 @@ class Game:
         else:
             self.player.velocity[1] = 0
 
+        if key[pygame.K_SPACE]:
+            self.bullets.velocity[0] = -1
+
     def update(self):
         self.player.move()
+        self.bullets.move()
 
     def display(self):
         self.screen.fill("black")
         self.player.draw(self.screen)
+        self.bullets.draw(self.screen)
         self.score.draw(self.screen)
         pygame.display.flip()
 
