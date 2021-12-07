@@ -40,15 +40,19 @@ class Game:
         if key[pygame.K_SPACE]:
             if self.bullets.state == "ready":
                 self.bullets.rect.x = self.player.rect.x
-                self.bullets.rect.y = self.player.rect.y
+                self.bullets.rect.y = self.player.rect.y + 10
                 self.bullets.state = "fire"
                 self.bullets.velocity[0] = -1
+                
 
     def update(self):
         self.player.move()
         self.bullets.move()
-        if self.bullets.rect.x == 0:
+        if self.bullets.rect.y <= -10:
+            self.bullets.rect.x = self.player.rect.x
+            self.bullets.rect.y = self.player.rect.y
             self.bullets.state = "ready"
+        
 
     def display(self):
         self.screen.fill("black")
