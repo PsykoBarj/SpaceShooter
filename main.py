@@ -8,6 +8,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player = Player(500, 500)
 
+    
+
     def handling_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,6 +41,7 @@ class Game:
     def run(self):
         while self.running:
             self.handling_event()
+            self.show_score()
             self.update()
             self.display()
             self.clock.tick(60)
