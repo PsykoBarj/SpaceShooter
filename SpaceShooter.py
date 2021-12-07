@@ -115,21 +115,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        
         # Controle du vaisseau joueur
         if event.type == pygame.KEYDOWN:
-        # Appui sur la fleche de gauche
-            if event.key == pygame.K_LEFT:
-                playerX_change = -speed
-        # Appui sur la fleche de droite
-            elif event.key == pygame.K_RIGHT:
-                playerX_change = speed
-        # Appui sur la fleche du haut
-            elif event.key == pygame.K_UP:
-                playerY_change = -speed
-        # Appui sur la fleche du bas
-            elif event.key == pygame.K_DOWN:
-                playerY_change = speed
-            elif event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
@@ -139,7 +129,15 @@ while running:
                 elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     playerY_change = 0
         # Appui sur la touche espace pour tirer
-           
+    pressed = pygame.key.get_pressed()
+    if pressed[pygame.K_LEFT]:
+        playerX_change = -speed
+    if pressed[pygame.K_RIGHT]:
+        playerX_change = speed
+    if pressed[pygame.K_UP]:
+        playerY_change = -speed
+    if pressed[pygame.K_DOWN]:
+        playerY_change = speed     
             
     # Ces deux blocs empechent le vaisseau de sortir du cadre
     playerX += playerX_change
