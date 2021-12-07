@@ -103,19 +103,25 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
     else:
         return False
 
+clock = pygame.time.Clock()
 # Boucle principal du jeu
 running = True
 while running:
 
-    screen.fill((0,0,0))
+    
     # Fond du jeu
     screen.blit(background, (0, 0))
-    speed = 1
+
+    speed = 15
     # Indique que si l'on clique sur la croix le jeu s'eteint en coupant la boucle
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                    if bullet_state is "ready":
+                        bulletX = playerX
+                        fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
@@ -131,10 +137,6 @@ while running:
         playerY_change = -speed
     if pressed[pygame.K_DOWN]:
         playerY_change = speed  
-    if pressed[pygame.K_SPACE]:
-        if bullet_state is "ready":
-                    bulletX = playerX
-                    fire_bullet(bulletX, bulletY)
             
     # Ces deux blocs empechent le vaisseau de sortir du cadre
     playerX += playerX_change
@@ -188,6 +190,7 @@ while running:
         bulletY -= bulletY_change
         SHOOT_SOUND.play()
 
+    clock.tick(60)
     player(playerX, playerY)
     show_score(textX, testY)
     pygame.display.update()
