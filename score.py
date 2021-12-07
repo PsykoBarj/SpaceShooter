@@ -1,7 +1,13 @@
 import pygame
 
 class show_score:
-        # Rendu de l'affichage, on cherche si il y a un score et on l'affiche en blanc
-        score = font.render("Score : " + str(score_value), True, (255,255,255))
+    def __init__(self, x, y):
+        self.score_value = 0
+        self.font = pygame.font.Font('freesansbold.ttf', 32)
+        self.score = self.font.render("Score : " + str(self.score_value), True, (255,255,255))
+        self.score
+        self.rect = self.score.get_rect(x=10, y=10)
         # Permet d'afficher le score sur l'ecran de jeu
-        screen.blit(score, (x, y))
+        
+    def draw(self, screen):
+        screen.blit(self.score, self.rect)

@@ -1,5 +1,6 @@
 import pygame
 from player import Player
+from score import show_score
 
 class Game:
     def __init__(self,screen):
@@ -7,6 +8,7 @@ class Game:
         self.running = True
         self.clock = pygame.time.Clock()
         self.player = Player(500, 500)
+        self.score = show_score(10,10)
 
     
 
@@ -36,15 +38,15 @@ class Game:
     def display(self):
         self.screen.fill("black")
         self.player.draw(self.screen)
+        self.score.draw(self.screen)
         pygame.display.flip()
 
     def run(self):
         while self.running:
             self.handling_event()
-            self.show_score()
             self.update()
             self.display()
-            self.clock.tick(60)
+            self.clock.tick(300)
 
 pygame.init()
 screen = pygame.display.set_mode((1080,720))
