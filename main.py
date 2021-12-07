@@ -14,13 +14,18 @@ class Game:
         self.score = show_score(10,10)
         self.bullets = Bullets(self.player.rect.x, self.player.rect.y)
         self.bullets.state = "ready"
-        
-
 
     def handling_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    if self.bullets.state == "ready":
+                        self.bullets.rect.x = self.player.rect.x
+                        self.bullets.rect.y = self.player.rect.y + 10
+                        self.bullets.state = "fire"
+                        self.bullets.velocity[0] = -1
 
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
@@ -36,13 +41,7 @@ class Game:
             self.player.velocity[1] = 1
         else:
             self.player.velocity[1] = 0
-
-        if key[pygame.K_SPACE]:
-            if self.bullets.state == "ready":
-                self.bullets.rect.x = self.player.rect.x
-                self.bullets.rect.y = self.player.rect.y + 10
-                self.bullets.state = "fire"
-                self.bullets.velocity[0] = -1
+        
                 
 
     def update(self):
