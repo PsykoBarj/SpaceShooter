@@ -10,12 +10,20 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+
     def update(self):
         pass
+
     def display(self):
-        pass
+        self.screen.fill("black")
+        pygame.display.flip()
+
     def run(self):
-        pass
+        while self.running:
+            self.handling_event()
+            self.update()
+            self.display()
+            self.clock.tick(60)
 
 pygame.init()
 screen = pygame.display.set_mode((1080,720))
