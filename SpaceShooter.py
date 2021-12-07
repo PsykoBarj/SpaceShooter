@@ -84,6 +84,7 @@ def game_over_text():
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
+pygame.key.set_repeat(400,30)
 # Fonction pour afficher les ennemis a l'ecran (position et nombre)
 def enemy(x, y, i):
     screen.blit(enemyImg[i], (x, y))
@@ -109,7 +110,7 @@ while running:
     screen.fill((0,0,0))
     # Fond du jeu
     screen.blit(background, (0, 0))
-    speed = 2
+    speed = 1
     # Indique que si l'on clique sur la croix le jeu s'eteint en coupant la boucle
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -120,22 +121,22 @@ while running:
             if event.key == pygame.K_LEFT:
                 playerX_change = -speed
         # Appui sur la fleche de droite
-            if event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_RIGHT:
                 playerX_change = speed
         # Appui sur la fleche du haut
-            if event.key == pygame.K_UP:
+            elif event.key == pygame.K_UP:
                 playerY_change = -speed
         # Appui sur la fleche du bas
-            if event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_DOWN:
                 playerY_change = speed
-            if event.key == pygame.K_SPACE:
+            elif event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     playerX_change = 0
-                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     playerY_change = 0
         # Appui sur la touche espace pour tirer
            
@@ -153,6 +154,7 @@ while running:
     elif playerY >= 530:
         playerY = 530
 
+     # Indique que si l'ennemi passe en bas de l'ecran alors la partie est perdue et affiche Game Over
     for i in range(num_of_enemies):
         if enemyY[i]>450:
             for j in range(num_of_enemies):
@@ -160,6 +162,7 @@ while running:
             game_over_text()
             break
         
+        # Deplacement de l'ennemi, lorsqu'il arrive tout a gauche descend de 1 pixel et a droite pareil
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
             enemyX_change[i] = 1
@@ -168,6 +171,7 @@ while running:
             enemyX_change[i] = -1
             enemyY[i] += enemyY_change[i]
 
+        # Lors d'une collision la balle est reinitialiser et l'ennemi respawn aleatoirement en haut de l'ecran
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
             bulletY = playerY
@@ -178,11 +182,12 @@ while running:
 
         enemy(enemyX[i], enemyY[i], i)
 
-    # Bullet Movement
+    # Fait disparaitre la balle a -20pixels hors du cadre
     if bulletY <= -20:
         bulletY = playerY
         bullet_state = "ready"
 
+    # Mise en mouvement de la balle et son lors du tir
     if bullet_state is "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
