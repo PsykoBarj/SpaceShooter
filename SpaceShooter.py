@@ -22,8 +22,8 @@ mixer.music.play(-1)
 
 # Initialisation du joueur
 playerImg = pygame.image.load('.\Images\Spaceship.png')
-playerX = 200
-playerY = 200
+playerX = 500
+playerY = 700
 playerX_change = 0
 playerY_change = 0
 
