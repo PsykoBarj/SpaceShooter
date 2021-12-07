@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 from player import Player
 from score import show_score
 from bullets import Bullets
@@ -25,6 +26,7 @@ class Game:
                         self.bullets.rect.x = self.player.rect.x
                         self.bullets.rect.y = self.player.rect.y + 10
                         self.bullets.state = "fire"
+                        self.bullets.SHOOT_SOUND.play()
                         self.bullets.velocity[0] = -1
 
         key = pygame.key.get_pressed()

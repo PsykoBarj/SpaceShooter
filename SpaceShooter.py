@@ -56,7 +56,7 @@ bullet_state = "ready"
 
 # Bruitage des balles
 SHOOT_SOUND = pygame.mixer.Sound('./Sons/shoot.wav')
-SHOOT_SOUND.set_volume(0.5)
+SHOOT_SOUND.set_volume(0.2)
 
 # Affichage du score , initialiser a 0 et en police freesansbold de taille 32
 score_value = 0
