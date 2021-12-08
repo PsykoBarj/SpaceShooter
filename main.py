@@ -1,7 +1,9 @@
 import pygame
+import sysconfig
 from pygame import mixer
 from player import Player
 from score import show_score
+from life import Life
 from bullets import Bullets
 from meteor import Meteor
 
@@ -16,7 +18,8 @@ class Game:
         self.player = Player(px, py)
         self.meteor = Meteor()
         self.score = show_score(10,10)
-        self.bullets = Bullets(self.player.rect.x, self.player.rect.y)
+        self.life = Life(10, 50)
+        self.bullets = Bullets(2000, 2000)
         self.bullets.state = "ready"
         self.BACKGROUND_SOUND = pygame.mixer.Sound('./Sons/BackgroundMusic.mp3')
         self.BACKGROUND_SOUND.set_volume(0.3)
@@ -59,7 +62,6 @@ class Game:
         if self.player.rect.y >= 650:
             self.player.rect.y = 650
         
-                
 
     def update(self):
         self.player.move()
@@ -72,6 +74,7 @@ class Game:
             self.bullets.state = "ready"
             self.bullets.HIT_SOUND.play()
         self.score.update()
+        self.life.update()
         self.meteor.move(False)
         self.bullets.move()
         if self.bullets.rect.y <= -10:
@@ -84,6 +87,7 @@ class Game:
         self.meteor.draw(self.screen)
         self.bullets.draw(self.screen)
         self.score.draw(self.screen)
+        self.life.draw(self.screen)
         pygame.display.flip()
 
     def run(self):
