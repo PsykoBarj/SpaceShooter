@@ -5,7 +5,7 @@ class Player:
         self.image = pygame.image.load(".\Images\Spaceship.png")
         self.image
         self.rect = self.image.get_rect(x=x, y=y)
-        self.speed = 5
+        self.speed = 6
         self.velocity = [0, 0]
 
     def move(self):
