@@ -43,6 +43,15 @@ class Game:
             self.player.velocity[1] = 1
         else:
             self.player.velocity[1] = 0
+
+        if self.player.rect.x <= 0:
+            self.player.rect.x = 0
+        if self.player.rect.x >= 1010:
+            self.player.rect.x = 1010
+        if self.player.rect.y <= 0:
+            self.player.rect.y = 0
+        if self.player.rect.y >= 650:
+            self.player.rect.y = 650
         
                 
 
