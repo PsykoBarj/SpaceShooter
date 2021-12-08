@@ -3,6 +3,7 @@ from pygame import mixer
 from player import Player
 from score import show_score
 from bullets import Bullets
+from meteor import Meteor
 
 class Game:
     def __init__(self,screen):
