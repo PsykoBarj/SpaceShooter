@@ -1,4 +1,5 @@
-import pygame
+import pygame, sys
+from pygame import *
 import sysconfig
 from pygame import mixer
 from player import Player
@@ -6,6 +7,48 @@ from score import show_score
 from life import Life
 from bullets import Bullets
 from meteor import Meteor
+
+pygame.init()
+screen = pygame.display.set_mode((1080, 720))
+font = pygame.font.SysFont('Cooper black', 30)
+ck = pygame.time.Clock()
+background_menu = pygame.image.load("./Images/Background.jpg").convert()
+def draw_text(text, font, color, surface, x, y):
+    textobj = font.render(text, 1, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+def main_menu():
+ 
+    click = False  # Savoir si la personne clique (menu)
+    menu = True
+    while menu:
+ 
+        screen.blit(background_menu, (0,0))
+        draw_text('Start Menu', font, (255, 255, 255), screen, 20, 20)
+ 
+        mx, my = pygame.mouse.get_pos()
+
+        button_1 = pygame.Rect(525, 250, 200, 50)
+        text1 = font.render('Jouer', False, (255,255,255))
+ 
+        if button_1.collidepoint ((mx, my)) and click == True :
+            menu = False
+
+        pygame.draw.rect(screen, (0, 0, 0), button_1)
+        screen.blit(text1, (583, 255))
+ 
+        click = False
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+ 
+        pygame.display.update()
+        ck.tick(60)
+
+main_menu()
 
 class Game:
     def __init__(self,screen):
