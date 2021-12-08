@@ -13,6 +13,7 @@ class Game:
         px = 500
         py = 500
         self.player = Player(px, py)
+        self.meteor = Meteor()
         self.score = show_score(10,10)
         self.bullets = Bullets(self.player.rect.x, self.player.rect.y)
         self.bullets.state = "ready"
@@ -58,6 +59,7 @@ class Game:
 
     def update(self):
         self.player.move()
+        self.meteor.move(False)
         self.bullets.move()
         if self.bullets.rect.y <= -10:
             self.bullets.rect.x = self.player.rect.x
@@ -68,6 +70,7 @@ class Game:
     def display(self):
         self.screen.fill("black")
         self.player.draw(self.screen)
+        self.meteor.draw(self.screen)
         self.bullets.draw(self.screen)
         self.score.draw(self.screen)
         pygame.display.flip()
