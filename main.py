@@ -116,8 +116,11 @@ class Game:
             self.bullets.rect.y = 2000
             self.bullets.state = "ready"
             self.bullets.HIT_SOUND.play()
-        if self.meteor.rect.y == 640:
+        if (self.meteor.rect.y > 610):
+            self.meteor.rect.y = 2000
             self.life.life_value -= 1
+            if self.life.life_value == 0:
+                self.running = False
         self.score.update()
         self.life.update()
         self.meteor.move(False)
