@@ -12,7 +12,6 @@ pygame.init()
 screen = pygame.display.set_mode((1080, 720))
 font = pygame.font.SysFont('Cooper black', 30)
 ck = pygame.time.Clock()
-background_menu = pygame.image.load("./Images/Background.jpg").convert()
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
@@ -25,7 +24,7 @@ def main_menu():
     menu = True
     while menu:
  
-        screen.blit(background_menu, (0,0))
+        screen.fill((0,0,0))
         draw_text('Start Menu', font, (255, 255, 255), screen, 20, 20)
  
         mx, my = pygame.mouse.get_pos()
@@ -41,6 +40,8 @@ def main_menu():
  
         click = False
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                menu = False
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -72,6 +73,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     if self.bullets.state == "ready":
