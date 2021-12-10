@@ -1,40 +1,42 @@
 import pygame
 
+class Menu():
 
+    def __init__(self):
+        pass
 
-def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
+    def draw_text(self, text, font, color, screen, x, y):
+        self.textobj = font.render(text, 1, color)
+        self.textrect = self.textobj.get_rect()
+        self.textrect.topleft = (x, y)
+        self.draw_text = (text, font, color, screen, x, y)
 
-def main_menu():
+    def update(self):
+        self.click = False 
+        self.menu = True
+        while self.menu:
  
-    click = False 
-    menu = True
-    while menu:
+            self.screen.fill((0,0,0))
+            self.draw_text('Start Menu', font, (255, 255, 255), screen, 20, 20)
  
-        screen.fill((0,0,0))
-        draw_text('Start Menu', font, (255, 255, 255), screen, 20, 20)
- 
-        mx, my = pygame.mouse.get_pos()
+            self.mx, self.my = pygame.mouse.get_pos()
 
-        button_1 = pygame.Rect(525, 250, 200, 50)
-        text1 = font.render('Jouer', False, (255,255,255))
+            self.button_1 = pygame.Rect(525, 250, 200, 50)
+            self.text1 = self.font.render('Jouer', False, (255,255,255))
  
-        if button_1.collidepoint ((mx, my)) and click == True :
-            menu = False
+            if self.button_1.collidepoint ((self.mx, self.my)) and self.click == True :
+                self.menu = False
 
-        pygame.draw.rect(screen, (0, 0, 0), button_1)
-        screen.blit(text1, (583, 255))
+            pygame.draw.rect(screen, (0, 0, 0), button_1)
+            self.screen.blit(text1, (583, 255))
  
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                menu = False
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
+            self.click = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.menu = False
+                if event.type == MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.click = True
  
-        pygame.display.update()
-        ck.tick(60)
+    def draw_text(self, screen):
+        screen.blit(self.textobj, self.textrect)

@@ -6,6 +6,7 @@ from score import show_score
 from life import Life
 from bullets import Bullets
 from meteor import Meteor
+from menu import Menu
 
 pygame.init()
 screen = pygame.display.set_mode((1080, 720))
@@ -62,6 +63,7 @@ class Game:
         self.meteor = Meteor()
         self.score = show_score(10,10)
         self.life = Life(10, 50)
+        self.menu = Menu()
         self.bullets = Bullets(2000, 2000)
         self.bullets.state = "ready"
         self.BACKGROUND_SOUND = pygame.mixer.Sound('./Sons/BackgroundMusic.mp3')
