@@ -1,6 +1,5 @@
 import pygame, sys
 from pygame import *
-import sysconfig
 from pygame import mixer
 from player import Player
 from score import show_score
@@ -20,7 +19,7 @@ def draw_text(text, font, color, surface, x, y):
 
 def main_menu():
  
-    click = False  # Savoir si la personne clique (menu)
+    click = False 
     menu = True
     while menu:
  
